@@ -24,4 +24,8 @@ timechess.html?d=6&n=3
 
 The above parameters should make a 3x3x3x3x3x3 board.
 
+## Old Version
+
+I made a version of this game in Unity, it has only 4-dimensional boards but is a complete game. (available in the releases tab)
+
 ### Enjoy!
