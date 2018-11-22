@@ -4,7 +4,7 @@ This is a turnkey downloadable version of timechess.avomath.com
 
 ## Sources
 
-This project makes extensive use of THREE.js ([threejs.org]).
+This project makes extensive use of [THREE.js](https://threejs.org).
 
 Omnidimensional Timechess is inspired by the boardgame 'Timeline' by George Marino.
 
