@@ -1,0 +1,207 @@
+<script src="three.min.js"></script>
+<script src="OrbitControls.js"></script>
+<script src="GLTFLoader.js"></script>
+<script src="MoveGen.js"></script>
+<script src="TCUtil.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<link rel="stylesheet" media="screen" href="ui.css" />
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<body style="margin: 0px; background-color: #000000; overflow: hidden;">
+
+
+<div id=accordion>
+	<h3>Game</h3>
+	<div>
+		<ul>
+			<li>undo</li>
+			<li>redo</li>
+			<li>restart</li>
+		</ul>
+	</div>
+	<h3>Save</h3>
+	<div>
+		<p class='save_text' id='board_setup'>
+			...
+		</p>
+		<p class='save_text' id='board_setup'>
+			...
+		</p>
+	</div>
+	<h3>Rearrange</h3>
+	<div>
+		<input class="ui" type="button" onclick="Animus.random_swap_2();" value="Click Me!">
+	</div>
+</div>
+
+<script>
+$( function() {
+	$( "#accordion" ).accordion( {
+		collapsible: true
+	} );
+} );
+
+var gState= {};
+gState.load= true;
+gState.anim= false;
+gState.calc= false;
+gState.turn= 0;
+gState.offer= false;
+gState.lysis= false;
+
+var camera, scene, renderer, loader, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
+var boardGroup;
+var squaresArray;
+var controls;
+var raycaster, mouse;
+var mouseOveree, newMouseOveree;
+
+var whiteSquareMaterial, blackSquareMaterial, whiteBoardMaterial, blackBoardMaterial, whiteSquareHotMaterial, blackSquareHotMaterial;
+
+var boardLength, dimensions;
+
+var intersects;
+
+urlParams= new URLSearchParams(window.location.search);
+if (urlParams.has('d')) {
+	Deltas.d= parseInt(urlParams.get('d'));
+} else {
+	Deltas.d= 4;
+}
+if (urlParams.has('n')) {
+	Deltas.n= parseInt(urlParams.get('n'));
+} else {
+	Deltas.n= 4;
+}
+
+init();
+animate();
+
+
+function onMouseMove( event ) {
+	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	mouse.y = - ( event.clientY / window.innerHeight ) * 2  + 1;
+}
+
+function init() {
+	loader = new THREE.GLTFLoader();
+	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+	camera.position.set( 4, 8, 4 );
+	controls = new THREE.OrbitControls( camera );
+	controls.target = new THREE.Vector3( 9.0, 0.75, -9.0 );
+	controls.update();
+
+	raycaster = new THREE.Raycaster();
+	mouse = new THREE.Vector2();
+
+	scene = new THREE.Scene();
+	scene.background = new THREE.Color( 0x554433 );
+
+
+
+	hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1 );
+	hemiLight.color.setHSL( 0.6, 1, 1 );
+	hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+	hemiLight.position.set( 0, 50, 0 );
+	scene.add( hemiLight );
+
+	hemiLightHelper = new THREE.HemisphereLightHelper( hemiLight, 10 );
+	scene.add( hemiLightHelper );
+
+	dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
+	dirLight.color.setHSL( 0.1, 1, 1 );
+	dirLight.position.set( -1, 1.75, 1 );
+	dirLight.position.multiplyScalar( 30 );
+	scene.add( dirLight );
+
+	TCUtil.initBoard();
+	//TCUtil.loneRook();
+
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setSize(window.innerWidth, window.innerHeight );
+	document.body.appendChild( renderer.domElement );
+
+	//
+
+	window.addEventListener( 'resize', onWindowResize, false );
+
+	gState.load= false;
+}
+
+function onWindowResize() {
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	controls.update();
+
+	renderer.setSize( window.innerWidth, window.innerHeight );
+}
+
+function animate() {
+
+	controls.update();
+
+	raycaster.setFromCamera( mouse, camera );
+	intersects = raycaster.intersectObjects( boardGroup.children );
+	if (intersects.length > 0) {
+//console.log("found " + intersects.length.toString() + " intersect");
+		newMouseOveree = intersects[0].object.square;
+		if (newMouseOveree.coord == null) {
+//console.log("found intersect but has no board coordinates");
+			newMouseOveree = null;
+		}
+	} else {
+		newMouseOveree = null;
+//console.log("found only 0 intersects");
+	}
+	if (newMouseOveree != mouseOveree) {
+		if (mouseOveree != null)
+		{
+			TCUtil.CoolDown( mouseOveree );
+		}
+		mouseOveree = newMouseOveree;
+		if (mouseOveree != null) {
+			TCUtil.HeatUp( mouseOveree );
+		}
+	}
+
+	if ( gState.anim ) {
+		if (gState.anim_style == 'swap') {
+			//console.debug('Anima run I');
+			currently= new Date().getTime();
+			//console.debug( 'Animus.anim_end: ' + Animus.anim_end );
+			//console.debug( "animation progress: " + ( currently - Animus.anim_start ) + " / " + ( Animus.anim_end - Animus.anim_start ) );
+			if ( currently >= Animus.anim_end ) {
+				//console.debug('Anima run J');
+				Deltas.current= Deltas.add( Deltas.next, Deltas.swap_center );
+				Deltas.swap_center= Deltas.zeroes();
+				gState.anim= false;
+			} else {
+				//console.debug('Anima run K');
+				progress= Math.PI * ( currently - Animus.anim_start ) / Animus.swap_anim_ms;
+				Deltas.update( progress );
+				//console.debug( progress );
+				//console.debug( Deltas.current );
+			}
+		}
+		//console.debug('Reposition ALL');
+		TCUtil.reposition_all();
+		//console.debug('RepositionED');
+		//console.debug('Anima run M');
+		//console.debug( Deltas.current );
+	}
+	renderer.render( scene, camera );
+
+	
+	requestAnimationFrame( animate );
+}
+
+renderer.domElement.addEventListener( 'mousemove', onMouseMove, false );
+
+
+</script>
+
+</body>
