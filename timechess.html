@@ -33,7 +33,12 @@
 	</div>
 	<h3>Rearrange</h3>
 	<div>
-		<input class="ui" type="button" onclick="Animus.random_swap_2();" value="Click Me!">
+		<div>
+			<input class="ui" type="button" onclick="Animus.random_swap_2();" value="Swap 2 random axes">
+		</div>
+		<div>
+			<input class="ui" type="button" onclick="Animus.random_reverse_1();" value="Reverse 1 axis">
+		</div>
 	</div>
 </div>
 
@@ -169,7 +174,7 @@ function animate() {
 	}
 
 	if ( gState.anim ) {
-		if (gState.anim_style == 'swap') {
+		if (gState.anim_style == 'swap' || gState.anim_style == 'reverse') {
 			//console.debug('Anima run I');
 			currently= new Date().getTime();
 			//console.debug( 'Animus.anim_end: ' + Animus.anim_end );
@@ -178,6 +183,8 @@ function animate() {
 				//console.debug('Anima run J');
 				Deltas.current= Deltas.add( Deltas.next, Deltas.swap_center );
 				Deltas.swap_center= Deltas.zeroes();
+				Deltas.current_anchor= Deltas.next_anchor.clone().add( Deltas.anchor_center );
+				Deltas.anchor_center= new THREE.Vector3( 0.0, 0.0, 0.0 );
 				gState.anim= false;
 			} else {
 				//console.debug('Anima run K');
