@@ -14,6 +14,20 @@ MoveGen.move_gen_1= function( x ) {
   return moves;
 }
 
+MoveGen.wild_unit= ( step_list )=> {
+  var moves= []
+  moves.push([])
+  for( i= 0; i < Board.d; i++ ) {
+    moves[0].push(0)
+  }
+  step_list.forEach((dim)=> {
+    var new_moves= []
+    moves.forEach(( move )=> {
+
+    })
+  })
+}
+
 MoveGen.move_gen_2= function( x, y ) {
   var a = [0, 0, 0, 0];
   var moves = [];

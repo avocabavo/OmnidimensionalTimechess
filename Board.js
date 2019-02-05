@@ -72,4 +72,4 @@ var Board = {
       square.mesh.updateMatrix();
     });
   }
-};
+}
