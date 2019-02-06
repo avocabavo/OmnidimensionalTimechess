@@ -5,33 +5,33 @@ var Deltas= {
   init: ( d, squareEdge, gap, boardLift, n ) => {
     Deltas.d= d;
     Deltas.current= [];
-    Deltas.current.push( new THREE.Vector3( squareEdge*(1+gap), 0.0, 0.0));
-    Deltas.current.push( new THREE.Vector3( 0.0, 0.0, -squareEdge*(1+gap) ) );
-    for ( i=2; i<d; i++ ) {
-      Deltas.current.push( Deltas.current[i-2].clone().multiplyScalar( n+1 ).add( boardLift ) );
+    Deltas.current.push(new THREE.Vector3(squareEdge*(1+gap), 0.0, 0.0));
+    Deltas.current.push(new THREE.Vector3(0.0, 0.0, -squareEdge*(1+gap)));
+    for (var i=2; i<d; i++) {
+      Deltas.current.push(Deltas.current[i-2].clone().multiplyScalar( n+1 ).add( boardLift ) );
     }
     Deltas.ever_center = new THREE.Vector3( 0.0, 0.0, 0.0 );
-    for ( i=1; i<d; i++ ) {
-      Deltas.ever_center.add( Deltas.current.clone().multiplyScalar( (n-1) / 2 ) );
+    for (var i=1; i<d; i++ ) {
+      Deltas.ever_center.add( Deltas.current[i].clone().multiplyScalar( (n-1) / 2 ) );
     }
   },
   zeroes: () => {
-    zs= [];
-    for ( i=0; i<Deltas.d; i++ ) {
+    var zs= [];
+    for (var i=0; i<Deltas.d; i++ ) {
       zs.push( new THREE.Vector3( 0.0, 0.0, 0.0 ) );
     }
     return zs;
   },
   para_calc: ( u, v, oper ) => {
-    result= [];
-    for ( i=0; i<Deltas.d; i++ ) {
+    var result= [];
+    for (var i=0; i<Deltas.d; i++ ) {
       result.push( oper( u[i].clone(), v[i] ) );
     }
     return result;
   },
   para_calc_c: ( u, a, oper ) => {
-    result= [];
-    for ( i=0; i<Deltas.d; i++ ) {
+    var result= [];
+    for (var i=0; i<Deltas.d; i++ ) {
       result.push( oper( u[i].clone(), a ) );
     }
     return result;

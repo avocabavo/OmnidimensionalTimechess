@@ -29,7 +29,7 @@ var Board = {
       } else {
           mys.mesh= new THREE.Mesh( squareGeometry, whiteSquareMaterial );
       }
-      mys.mech.square= mys;
+      mys.mesh.square= mys;
       mys.coord= Board.currentCoord.slice(0);
       mys.occupant= null;
       mys.ghost= null;
