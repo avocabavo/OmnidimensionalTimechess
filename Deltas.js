@@ -7,18 +7,23 @@ var Deltas= {
     Deltas.current= [];
     Deltas.current.push(new THREE.Vector3(squareEdge*(1+gap), 0.0, 0.0));
     Deltas.current.push(new THREE.Vector3(0.0, 0.0, -squareEdge*(1+gap)));
-    for (var i=2; i<d; i++) {
-      Deltas.current.push(Deltas.current[i-2].clone().multiplyScalar( n+1 ).add( boardLift ) );
+    for (var i= 2; i < d; i++) {
+      var tempV= Deltas.current[i-2].clone()
+      tempV.multiplyScalar(n+1)
+      tempV.add(boardLift)
+      Deltas.current.push(tempV)
     }
     Deltas.ever_center = new THREE.Vector3( 0.0, 0.0, 0.0 );
-    for (var i=1; i<d; i++ ) {
-      Deltas.ever_center.add( Deltas.current[i].clone().multiplyScalar( (n-1) / 2 ) );
+    for (var i= 0; i < d; i++) {
+      var tempV= Deltas.current[i].clone()
+      tempV.multiplyScalar((n-1)/2)
+      Deltas.ever_center.add(tempV);
     }
   },
   zeroes: () => {
     var zs= [];
-    for (var i=0; i<Deltas.d; i++ ) {
-      zs.push( new THREE.Vector3( 0.0, 0.0, 0.0 ) );
+    for (var i= 0; i < Deltas.d; i++) {
+      zs.push(new THREE.Vector3(0.0, 0.0, 0.0));
     }
     return zs;
   },

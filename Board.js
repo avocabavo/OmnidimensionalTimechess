@@ -5,7 +5,7 @@ var Board = {
     squareEdge= 1.0;
     gap= 0.1;
     boardLift= new THREE.Vector3( 0.0, 0.5, 0.0 );
-    Deltas.init( d, squareEdge, gap, boardLift );
+    Deltas.init(d, squareEdge, gap, boardLift, n)
     
     whiteSquareMaterial= new THREE.MeshStandardMaterial( { color: 0xffffff } );
     blackSquareMaterial= new THREE.MeshStandardMaterial( { color: 0x444444 } );
@@ -20,14 +20,14 @@ var Board = {
       Board.currentCoord.push(0);
     }
     squaresCount= Math.pow( n, d );
-    for ( s=0; s<squaresCount; s++ ) {
-      mys= {};
+    for (var s= 0; s < squaresCount; s++) {
+      var mys= {};
       mys.black= Board.currentCoord.reduce( Board.reducer ) % 2 == 0;
       if ( mys.black )
       {
         mys.mesh= new THREE.Mesh( squareGeometry, blackSquareMaterial );
       } else {
-          mys.mesh= new THREE.Mesh( squareGeometry, whiteSquareMaterial );
+        mys.mesh= new THREE.Mesh( squareGeometry, whiteSquareMaterial );
       }
       mys.mesh.square= mys;
       mys.coord= Board.currentCoord.slice(0);
@@ -38,8 +38,9 @@ var Board = {
         new THREE.Vector3( 0.0, 0.0, 0.0 ) );
       mys.mesh.position.set( cvect.x, cvect.y, cvect.z );
       mys.mesh.matrixAutoUpdate= false;
+      mys.mesh.updateMatrix()
       Board.boardGroup.add( mys.mesh );
-      squaresArray.push( mys );
+      Board.squaresArray.push( mys );
 
       Board.currentCoord[0]++;
       for ( j=0; j<(d-1); j++ ) {
@@ -54,10 +55,10 @@ var Board = {
   },
   reducer: ( total, next ) => { return( total + next ) },
   positioner: ( total, next, index ) => {
-    return( 
-      total.add( 
+    return(
+      total.add(
         next.clone().multiplyScalar(
-          Board.currentCoord)));
+          Board.currentCoord[index])));
   },
   reposition_all: () => {
     Board.squaresArray.forEach( square => {

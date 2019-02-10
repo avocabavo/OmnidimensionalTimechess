@@ -75,14 +75,14 @@ var intersects;
 
 urlParams= new URLSearchParams(window.location.search);
 if (urlParams.has('d')) {
-	Deltas.d= parseInt(urlParams.get('d'));
+	d= parseInt(urlParams.get('d'));
 } else {
-	Deltas.d= 4;
+	d= 4;
 }
 if (urlParams.has('n')) {
-	Deltas.n= parseInt(urlParams.get('n'));
+	n= parseInt(urlParams.get('n'));
 } else {
-	Deltas.n= 4;
+	n= 4;
 }
 
 init();
@@ -125,8 +125,11 @@ function init() {
 	dirLight.position.multiplyScalar( 30 );
 	scene.add( dirLight );
 
-	TCUtil.initBoard();
-	//TCUtil.loneRook();
+	// TCUtil.initBoard();
+	// TCUtil.loneRook();
+
+	Board.init(d, n)
+	scene.add(Board.boardGroup)
 
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
@@ -153,7 +156,7 @@ function animate() {
 	controls.update();
 
 	raycaster.setFromCamera( mouse, camera );
-	intersects = raycaster.intersectObjects( boardGroup.children );
+	intersects = raycaster.intersectObjects( Board.boardGroup.children );
 	if (intersects.length > 0) {
 //console.log("found " + intersects.length.toString() + " intersect");
 		newMouseOveree = intersects[0].object.square;
