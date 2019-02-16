@@ -8,6 +8,7 @@
 <script src="Board.js"></script>
 <script src="Deltas.js"></script>
 <script src="MoveGen.js"></script>
+<script src="Animus.js"></script>
 
 <link rel="stylesheet" media="screen" href="ui.css" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -140,6 +141,8 @@ function init() {
 
 	window.addEventListener( 'resize', onWindowResize, false );
 
+	Animus.init()
+
 	gState.load= false;
 }
 
@@ -180,31 +183,35 @@ function animate() {
 	}
 
 	if ( gState.anim ) {
-		if (gState.anim_style == 'swap' || gState.anim_style == 'reverse') {
-			//console.debug('Anima run I');
-			currently= new Date().getTime();
-			//console.debug( 'Animus.anim_end: ' + Animus.anim_end );
-			//console.debug( "animation progress: " + ( currently - Animus.anim_start ) + " / " + ( Animus.anim_end - Animus.anim_start ) );
-			if ( currently >= Animus.anim_end ) {
-				//console.debug('Anima run J');
-				Deltas.current= Deltas.add( Deltas.next, Deltas.swap_center );
-				Deltas.swap_center= Deltas.zeroes();
-				Deltas.current_anchor= Deltas.next_anchor.clone().add( Deltas.anchor_center );
-				Deltas.anchor_center= new THREE.Vector3( 0.0, 0.0, 0.0 );
-				gState.anim= false;
-			} else {
-				//console.debug('Anima run K');
-				progress= Math.PI * ( currently - Animus.anim_start ) / Animus.swap_anim_ms;
-				Deltas.update( progress );
-				//console.debug( progress );
-				//console.debug( Deltas.current );
-			}
-		}
-		//console.debug('Reposition ALL');
-		TCUtil.reposition_all();
-		//console.debug('RepositionED');
-		//console.debug('Anima run M');
-		//console.debug( Deltas.current );
+		Animus.frame_pass()
+		// if (gState.anim_style == 'swap' || gState.anim_style == 'reverse') {
+		// 	//console.debug('Anima run I');
+		// 	currently= new Date().getTime();
+		// 	//console.debug( 'Animus.anim_end: ' + Animus.anim_end );
+		// 	//console.debug( "animation progress: " + ( currently - Animus.anim_start ) + " / " + ( Animus.anim_end - Animus.anim_start ) );
+		// 	if ( currently >= Animus.anim_end ) {
+		// 		//console.debug('Anima run J');
+		// 		Deltas.current= Deltas.add( Deltas.next, Deltas.swap_center );
+		// 		Deltas.swap_center= Deltas.zeroes();
+		// 		Deltas.current_anchor= Deltas.next_anchor.clone().add( Deltas.anchor_center );
+		// 		Deltas.anchor_center= new THREE.Vector3( 0.0, 0.0, 0.0 );
+		// 		gState.anim= false;
+		// 	} else {
+		// 		//console.debug('Anima run K');
+		// 		progress= Math.PI * ( currently - Animus.anim_start ) / Animus.swap_anim_ms;
+		// 		Deltas.update( progress );
+		// 		//console.debug( progress );
+		// 		//console.debug( Deltas.current );
+		// 	}
+		// }
+		// //console.debug('Reposition ALL');
+
+		// // TCUtil.reposition_all();
+		// Animus.frame_pass()
+
+		// //console.debug('RepositionED');
+		// //console.debug('Anima run M');
+		// //console.debug( Deltas.current );
 	}
 	renderer.render( scene, camera );
 
