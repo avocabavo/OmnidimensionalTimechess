@@ -5,6 +5,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<script src="GameState.js"></script>
 <script src="Board.js"></script>
 <script src="Deltas.js"></script>
 <script src="MoveGen.js"></script>
@@ -52,14 +53,6 @@ $( function() {
 		collapsible: true
 	} );
 } );
-
-var gState= {};
-gState.load= true;
-gState.anim= false;
-gState.calc= false;
-gState.turn= 0;
-gState.offer= false;
-gState.lysis= false;
 
 var camera, scene, renderer, loader, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
 var boardGroup;
@@ -143,7 +136,7 @@ function init() {
 
 	Animus.init()
 
-	gState.load= false;
+	GameState.load= false;
 }
 
 function onWindowResize() {
@@ -182,7 +175,7 @@ function animate() {
 		}
 	}
 
-	if ( gState.anim ) {
+	if (GameState.anim) {
 		Animus.frame_pass()
 		// if (gState.anim_style == 'swap' || gState.anim_style == 'reverse') {
 		// 	//console.debug('Anima run I');
@@ -213,13 +206,13 @@ function animate() {
 		// //console.debug('Anima run M');
 		// //console.debug( Deltas.current );
 	}
-	renderer.render( scene, camera );
+	renderer.render(scene, camera)
 
 	
-	requestAnimationFrame( animate );
+	requestAnimationFrame(animate)
 }
 
-renderer.domElement.addEventListener( 'mousemove', onMouseMove, false );
+renderer.domElement.addEventListener('mousemove', onMouseMove, false)
 
 
 </script>

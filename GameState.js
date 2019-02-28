@@ -5,4 +5,4 @@ var GameState= {
   turn: 0,
   offer: false,
   lysis: false
-};
+}
