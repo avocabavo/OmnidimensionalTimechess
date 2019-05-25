@@ -39,10 +39,10 @@ var Animus= {
 		GameState.anim_style= 'reverse'
 		Deltas.prev= Deltas.current.slice()
 		Deltas.next= []
-		var calculatingV = new THREE.Vector3(0.0, 0.0, 0.0)
+		let calculatingV = new THREE.Vector3(0.0, 0.0, 0.0)
 		for(let i= 0; i < Deltas.d; i++) {
 			if (i == dim) {
-				var reversedV= Deltas.current[i].clone()
+				let reversedV= Deltas.current[i].clone()
 				reversedV.multiplyScalar(-1)
 				Deltas.next.push(reversedV)
 			} else {
@@ -51,7 +51,7 @@ var Animus= {
 			}
 		}
 		Deltas.perp= []
-		for(let i= 0; i < Deltas.d; i++) {
+		for (let i= 0; i < Deltas.d; i++) {
 			if (i == dim) {
 				calculatingV.cross(Deltas.current[i])
 				if (calculatingV.lengthSq() == 0.0) {
@@ -67,6 +67,11 @@ var Animus= {
 				Deltas.perp.push(Deltas.current[i])
 			}
 		}
+		for (let i= 0; i < Deltas.d; i++) {
+			Deltas.perp[i].multiplyScalar(1.08)
+		}
+		Deltas.calc_thetas()
+		
 		Animus.anim_start()
 	},
 	lone_swap: (dim_one, dim_two)=> {

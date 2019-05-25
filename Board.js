@@ -55,7 +55,7 @@ var Board= {
   },
   reducer: (total, next)=> { return (total + next) },
   positioner: (total, next, index)=> {
-    tempV = next.clone()
+    let tempV = next.clone()
     tempV.multiplyScalar(Board.currentCoord[index])
     tempV.add(total)
     return tempV
@@ -63,12 +63,9 @@ var Board= {
   reposition_all: ()=> {
     Board.squaresArray.forEach(square=> {
       Board.currentCoord= square.coord
-      cvect= Deltas.para_calc_c(
-        Deltas.current,
-        Deltas.anchor,
-        v3add
-        ).reduce(
-          Board.positioner, new THREE.Vector3(0.0, 0.0, 0.0))
+      let cvect= Deltas.current.reduce(
+          Board.positioner, 
+          Deltas.anchor.clone())
       square.mesh.position.set(cvect.x, cvect.y, cvect.z)
       square.mesh.updateMatrix()
     })

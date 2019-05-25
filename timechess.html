@@ -48,18 +48,18 @@
 </div>
 
 <script>
-$( function() {
-	$( "#accordion" ).accordion( {
+$(()=> {
+	$("#accordion").accordion({
 		collapsible: true
-	} );
-} );
+	})
+})
 
-var camera, scene, renderer, loader, dirLight, dirLightHeper, hemiLight, hemiLightHelper;
-var boardGroup;
-var squaresArray;
-var controls;
-var raycaster, mouse;
-var mouseOveree, newMouseOveree;
+var camera, scene, renderer, loader, dirLight, dirLightHeper, hemiLight, hemiLightHelper
+var boardGroup
+var squaresArray
+var controls
+var raycaster, mouse
+var mouseOveree, newMouseOveree
 
 var whiteSquareMaterial, blackSquareMaterial, whiteBoardMaterial, blackBoardMaterial, whiteSquareHotMaterial, blackSquareHotMaterial;
 
@@ -79,28 +79,25 @@ if (urlParams.has('n')) {
 	n= 4;
 }
 
-init();
-animate();
 
-
-function onMouseMove( event ) {
-	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = - ( event.clientY / window.innerHeight ) * 2  + 1;
+var onMouseMove= (event)=> {
+	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
+	mouse.y = - ( event.clientY / window.innerHeight ) * 2  + 1
 }
 
-function init() {
-	loader = new THREE.GLTFLoader();
-	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
-	camera.position.set( 4, 8, 4 );
-	controls = new THREE.OrbitControls( camera );
-	controls.target = new THREE.Vector3( 9.0, 0.75, -9.0 );
-	controls.update();
+var init= ()=> {
+	loader= new THREE.GLTFLoader()
+	camera= new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000)
+	camera.position.set(4, 8, 4)
+	controls= new THREE.OrbitControls(camera)
+	controls.target= new THREE.Vector3(9.0, 0.75, -9.0)
+	controls.update()
 
-	raycaster = new THREE.Raycaster();
-	mouse = new THREE.Vector2();
+	raycaster= new THREE.Raycaster()
+	mouse= new THREE.Vector2()
 
-	scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0x554433 );
+	scene= new THREE.Scene()
+	scene.background= new THREE.Color(0x554433)
 
 
 
@@ -125,53 +122,53 @@ function init() {
 	Board.init(d, n)
 	scene.add(Board.boardGroup)
 
-	renderer = new THREE.WebGLRenderer( { antialias: true } );
-	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize(window.innerWidth, window.innerHeight );
-	document.body.appendChild( renderer.domElement );
+	renderer = new THREE.WebGLRenderer({antialias: true})
+	renderer.setPixelRatio(window.devicePixelRatio)
+	renderer.setSize(window.innerWidth, window.innerHeight)
+	document.body.appendChild(renderer.domElement)
 
 	//
 
-	window.addEventListener( 'resize', onWindowResize, false );
+	window.addEventListener('resize', onWindowResize, false)
 
 	Animus.init()
 
-	GameState.load= false;
+	GameState.load= false
 }
 
-function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	controls.update();
+var onWindowResize= ()=> {
+	camera.aspect = window.innerWidth / window.innerHeight
+	camera.updateProjectionMatrix()
+	controls.update()
 
-	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.setSize(window.innerWidth, window.innerHeight)
 }
 
-function animate() {
+var animate= ()=> {
 
-	controls.update();
+	controls.update()
 
-	raycaster.setFromCamera( mouse, camera );
-	intersects = raycaster.intersectObjects( Board.boardGroup.children );
+	raycaster.setFromCamera(mouse, camera)
+	intersects = raycaster.intersectObjects(Board.boardGroup.children)
 	if (intersects.length > 0) {
 //console.log("found " + intersects.length.toString() + " intersect");
-		newMouseOveree = intersects[0].object.square;
+		newMouseOveree = intersects[0].object.square
 		if (newMouseOveree.coord == null) {
 //console.log("found intersect but has no board coordinates");
-			newMouseOveree = null;
+			newMouseOveree = null
 		}
 	} else {
-		newMouseOveree = null;
+		newMouseOveree = null
 //console.log("found only 0 intersects");
 	}
 	if (newMouseOveree != mouseOveree) {
 		if (mouseOveree != null)
 		{
-			TCUtil.CoolDown( mouseOveree );
+			TCUtil.CoolDown(mouseOveree)
 		}
-		mouseOveree = newMouseOveree;
+		mouseOveree = newMouseOveree
 		if (mouseOveree != null) {
-			TCUtil.HeatUp( mouseOveree );
+			TCUtil.HeatUp(mouseOveree)
 		}
 	}
 
@@ -211,6 +208,9 @@ function animate() {
 	
 	requestAnimationFrame(animate)
 }
+
+init();
+animate();
 
 renderer.domElement.addEventListener('mousemove', onMouseMove, false)
 

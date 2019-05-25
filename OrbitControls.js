@@ -775,7 +775,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		if ( scope.enabled === false || scope.enableZoom === false || ( state !== STATE.NONE && state !== STATE.ROTATE ) ) return;
 
-		event.preventDefault();
+		// Commented out by OWL 2019-5-25 because chrome says it's not needed anymore.
+		// event.preventDefault();
 		event.stopPropagation();
 
 		scope.dispatchEvent( startEvent );
