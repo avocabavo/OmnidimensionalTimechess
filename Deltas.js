@@ -22,6 +22,7 @@ var Deltas= {
 			tempV.multiplyScalar((n-1)/2)
 			Deltas.ever_center.add(tempV)
 		}
+		Deltas.calc_anchor()
 	},
 	zeroes: () => {
 		var zs= [];
@@ -77,12 +78,6 @@ var Deltas= {
 				}
 			}
 		}
-		// console.log("prev: " + use_prev)
-		// console.log("perp: " + use_perp)
-		// console.log("next: " + use_next)
-		Deltas.calc_current(use_prev, use_perp, use_next)
-	},
-	calc_current: (use_prev, use_perp, use_next)=> {
 		Deltas.current= 
 			Deltas.para_calc(
 				Deltas.para_calc(
@@ -94,12 +89,16 @@ var Deltas= {
 				Deltas.para_calc(
 					Deltas.next, use_next, v3scale),
 				v3add)
+		console.log("deltas.current", Deltas.current)
+	},
+	calc_anchor: ()=> {
 		Deltas.anchor= Deltas.ever_center.clone()
 		for (let i= 0; i < d; i++) {
 			Deltas.anchor.add(
 				Deltas.current[i].clone()
 					.multiplyScalar(-(n-1) / 2))
 		}
+		// console.log(Deltas.anchor)
 	},
 	// calc_swap_center: ()=> {
 	// 	Deltas.swap_center= 

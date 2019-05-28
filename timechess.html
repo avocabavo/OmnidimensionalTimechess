@@ -88,7 +88,7 @@ var onMouseMove= (event)=> {
 var init= ()=> {
 	loader= new THREE.GLTFLoader()
 	camera= new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000)
-	camera.position.set(4, 8, 4)
+	camera.position.set(12, 24, 12)
 	controls= new THREE.OrbitControls(camera)
 	controls.target= new THREE.Vector3(9.0, 0.75, -9.0)
 	controls.update()

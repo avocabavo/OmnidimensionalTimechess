@@ -64,7 +64,7 @@ var Board= {
     Board.squaresArray.forEach(square=> {
       Board.currentCoord= square.coord
       let cvect= Deltas.current.reduce(
-          Board.positioner, 
+          Board.positioner,
           Deltas.anchor.clone())
       square.mesh.position.set(cvect.x, cvect.y, cvect.z)
       square.mesh.updateMatrix()
