@@ -1,5 +1,5 @@
 var Animus= {
-	anim_ms: 500,
+	anim_ms: 5000,
 	init: () => {},
 	anim_start: ()=> {
 		Deltas.calc_thetas()
@@ -65,11 +65,15 @@ var Animus= {
 				}
 				calculatingV.normalize()
 				calculatingV.multiplyScalar(Deltas.current[i].length())
+				calculatingV.multiplyScalar(1.5)
 				Deltas.perp.push(calculatingV)
 			} else {
 				Deltas.perp.push(Deltas.current[i])
 			}
 		}
+		console.log("prev", Deltas.prev)
+		console.log("perp", Deltas.perp)
+		console.log("next", Deltas.next)
 		Animus.anim_start()
 	},
 	lone_swap: (dim_one, dim_two)=> {
@@ -122,9 +126,12 @@ var Animus= {
 				if (i == dim_one)
 					tempV.multiplyScalar(-1)
 				tempV.add(swapCenter)
+				tempV.multiplyScalar(1.5)
 				Deltas.perp.push(tempV)
 			} else {
-				Deltas.perp.push(Deltas.current[i].clone())
+				tempV = Deltas.current[i].clone()
+				// tempV.multiplyScalar(2.0)
+				Deltas.perp.push(tempV)
 			}
 		}
 		console.log("prev", Deltas.prev)

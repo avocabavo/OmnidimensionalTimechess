@@ -55,28 +55,36 @@ var Deltas= {
 		var use_perp= []
 		var use_next= []
 		for (let i= 0; i < Deltas.d; i++) {
-			if (Deltas.theta[i] < (Math.PI / 36)) {
-				if (progress < (Math.PI / 2)) {
-					use_prev.push(1 - progress / (Math.PI / 2))
-					use_perp.push(progress / (Math.PI / 2))
-					use_next.push(0.0)
-				} else {
-					use_prev.push(0.0)
-					use_perp.push(progress / (Math.PI / 2) - 1)
-					use_next.push(2 - progress / (Math.PI / 2))
-				}
-			} else {
-				let pangle = progress * Math.PI / 2.0 / Deltas.theta[i]
-				if (progress < (Math.PI / 2)) {
-					use_prev.push(Math.sin(Deltas.theta[i] - pangle) / Math.sin(Deltas.theta[i]))
-					use_perp.push(Math.sin(pangle) / Math.sin(Deltas.theta[i]))
-					use_next.push(0.0)
-				} else {
-					use_prev.push(0.0)
-					use_perp.push(Math.sin(Deltas.theta[i] * 2 - pangle) / Math.sin(Deltas.theta[i]))
-					use_next.push(Math.sin(pangle - Deltas.theta[i]) / Math.sin(Deltas.theta[i]))
-				}
-			}
+			bez_param = progress / Math.PI
+			use_prev.push((1 - bez_param) * (1 - bez_param))
+			use_perp.push(2 * bez_param * (1 - bez_param))
+			use_next.push(bez_param * bez_param)
+			// if (Deltas.theta[i] < (Math.PI / 36)) {
+			// 	if (progress < (Math.PI / 2)) {
+			// 		use_prev.push(1 - progress / (Math.PI / 2))
+			// 		use_perp.push(progress / (Math.PI / 2))
+			// 		use_next.push(0.0)
+			// 	} else {
+			// 		use_prev.push(0.0)
+			// 		use_perp.push(progress / (Math.PI / 2) - 1)
+			// 		use_next.push(2 - progress / (Math.PI / 2))
+			// 	}
+			// } else {
+			// 	// // let pangle = progress * Math.PI / 2.0 / Deltas.theta[i]
+			// 	// if (progress < (Math.PI / 2)) {
+			// 	// 	// use_prev.push(Math.cos(progress))
+			// 	// 	// use_perp.push(Math.sin(progress))
+			// 	// 	use_prev.push(Math.sin(Deltas.theta[i] - pangle) / Math.sin(Deltas.theta[i]))
+			// 	// 	use_perp.push(Math.sin(pangle) / Math.sin(Deltas.theta[i]))
+			// 	// 	use_next.push(0.0)
+			// 	// } else {
+			// 	// 	use_prev.push(0.0)
+			// 	// 	use_perp.push(Math.sin(Deltas.theta[i] * 2 - pangle) / Math.sin(Deltas.theta[i]))
+			// 	// 	use_next.push(Math.sin(pangle - Deltas.theta[i]) / Math.sin(Deltas.theta[i]))
+			// 	// 	// use_perp.push(Math.sin(progress))
+			// 	// 	// use_next.push(-Math.cos(progress))
+			// 	// }
+			// }
 		}
 		Deltas.current= 
 			Deltas.para_calc(
@@ -89,7 +97,7 @@ var Deltas= {
 				Deltas.para_calc(
 					Deltas.next, use_next, v3scale),
 				v3add)
-		console.log("deltas.current", Deltas.current)
+		// console.log("deltas.current", Deltas.current)
 	},
 	calc_anchor: ()=> {
 		Deltas.anchor= Deltas.ever_center.clone()
