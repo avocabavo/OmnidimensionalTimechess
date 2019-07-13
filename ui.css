@@ -1,10 +1,9 @@
 
 
 #accordion {
-    position: absolute;
-  }
-  
-  #nobody {
-    background: lightgray;
-  }
-  
+	position: absolute;
+}
+
+#nobody {
+	background: lightgray;
+}
