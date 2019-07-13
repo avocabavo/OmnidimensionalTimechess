@@ -71,9 +71,9 @@ var Animus= {
 				Deltas.perp.push(Deltas.current[i])
 			}
 		}
-		console.log("prev", Deltas.prev)
-		console.log("perp", Deltas.perp)
-		console.log("next", Deltas.next)
+		// console.log("prev", Deltas.prev)
+		// console.log("perp", Deltas.perp)
+		// console.log("next", Deltas.next)
 		Animus.anim_start()
 	},
 	lone_swap: (dim_one, dim_two)=> {
@@ -98,7 +98,7 @@ var Animus= {
 		swapCenter.add(Deltas.current[dim_one])
 		swapCenter.add(Deltas.current[dim_two])
 		swapCenter.multiplyScalar(0.5)
-		console.log("swap center", swapCenter)
+		// console.log("swap center", swapCenter)
 		Deltas.perp= []
 		for (let i= 0; i < Deltas.d; i++) {
 			if (i == dim_one || i == dim_two) {
@@ -134,9 +134,9 @@ var Animus= {
 				Deltas.perp.push(tempV)
 			}
 		}
-		console.log("prev", Deltas.prev)
-		console.log("perp", Deltas.perp)
-		console.log("next", Deltas.next)
+		// console.log("prev", Deltas.prev)
+		// console.log("perp", Deltas.perp)
+		// console.log("next", Deltas.next)
 		Animus.anim_start()
 	}
 }
