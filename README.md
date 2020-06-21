@@ -4,9 +4,11 @@ This is a turnkey downloadable version of timechess.avomath.com
 
 ## Sources
 
+Omnidimensional Timechess is inspired by the boardgame 'Timeline' by George Marino.
+
 This project makes extensive use of [THREE.js](https://threejs.org).
 
-Omnidimensional Timechess is inspired by the boardgame 'Timeline' by George Marino.
+Starfield skybox was generated with [this utility](https://wwwtyro.github.io/space-3d/)
 
 ## Installation
 
