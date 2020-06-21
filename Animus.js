@@ -1,5 +1,5 @@
 var Animus= {
-	anim_ms: 5000,
+	anim_ms: 2000,
 	init: () => {},
 	anim_start: ()=> {
 		Deltas.calc_thetas()
@@ -14,8 +14,8 @@ var Animus= {
 			GameState.anim= false
 		} else {
 			var progress= (
-				Math.PI * 
-				(currently - Animus.start_time) / 
+				Math.PI *
+				(currently - Animus.start_time) /
 				Animus.anim_ms)
 			// console.log("progress: " + progress)
 			Deltas.update(progress)

@@ -97,7 +97,17 @@ var init= ()=> {
 	mouse= new THREE.Vector2()
 
 	scene= new THREE.Scene()
-	scene.background= new THREE.Color(0x554433)
+	// scene.background= new THREE.Color(0x554433)
+	const texture_loader = new THREE.CubeTextureLoader();
+  const texture = texture_loader.load([
+		'./skybox/right.png',
+		'./skybox/left.png',
+		'./skybox/back.png',
+		'./skybox/front.png',
+		'./skybox/top.png',
+		'./skybox/bottom.png',
+  ]);
+  scene.background = texture;
 
 
 
@@ -205,7 +215,7 @@ var animate= ()=> {
 	}
 	renderer.render(scene, camera)
 
-	
+
 	requestAnimationFrame(animate)
 }
 
