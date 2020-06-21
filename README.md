@@ -12,7 +12,12 @@ Starfield skybox was generated with [this utility](https://wwwtyro.github.io/spa
 
 ## Installation
 
-This repository is meant to be a turnkey system that can be downloaded, used and modified just by copying all the files from this repository into the same folder.
+This repository is meant to be a turnkey system that can be downloaded, used and modified just by copying all the files from this repository into the same folder. Serve the files however you like; for example with:
+
+```
+npm install http-server -g
+http-server .
+```
 
 ## URL params
 
